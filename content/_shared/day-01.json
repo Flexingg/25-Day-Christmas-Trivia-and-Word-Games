@@ -1,0 +1,68 @@
+{
+  "day": 1,
+  "title": "",
+  "intro": "",
+  "puzzles": [
+    {
+      "id": "shared-d01-01",
+      "section": "christmas",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "In \"The Twelve Days of Christmas,\" what is given on the fifth day?",
+      "choices": [
+        "Five gold rings",
+        "Five French hens",
+        "Five swans a-swimming",
+        "Five calling birds"
+      ],
+      "answer": 0,
+      "explanation": "Five gold rings! (French hens are day 3, calling birds day 4, swans day 7.)"
+    },
+    {
+      "id": "shared-d01-02",
+      "section": "christmas",
+      "type": "scramble",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Unscramble the letters:",
+      "answer": "POINSETTIA",
+      "alsoAccept": [],
+      "hint": "The red Christmas plant native to Mexico.",
+      "explanation": "Named after Joel Poinsett, the first U.S. minister to Mexico. In Mexico it is called \"flor de Nochebuena.\"",
+      "attempts": 3
+    },
+    {
+      "id": "shared-d01-03",
+      "section": "faith",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Which Old Testament prophet foretold that the Messiah would come from Bethlehem?",
+      "choices": [
+        "Isaiah",
+        "Jeremiah",
+        "Micah",
+        "Malachi"
+      ],
+      "answer": 2,
+      "explanation": "Micah 5:2 — \"But you, O Bethlehem Ephrathah… from you shall come forth for me one who is to be ruler in Israel.\" Quoted in Matthew 2:6."
+    },
+    {
+      "id": "shared-d01-04",
+      "section": "faith",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Which Scottish reformer, a student of John Calvin in Geneva, is considered the founder of Presbyterianism?",
+      "choices": [
+        "John Knox",
+        "John Wesley",
+        "Martin Luther",
+        "Ulrich Zwingli"
+      ],
+      "answer": 0,
+      "explanation": "John Knox brought Reformed teaching home to Scotland, shaping the Church of Scotland in 1560."
+    }
+  ]
+}

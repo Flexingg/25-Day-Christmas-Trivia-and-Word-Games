@@ -1,0 +1,82 @@
+{
+  "day": 1,
+  "title": "¡Buenos días, Kathy!",
+  "intro": "Grab a cafecito and let’s practice some español. ☕",
+  "puzzles": [
+    {
+      "id": "kathy-d01-01",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "¿Cómo se dice \"coffee with milk\" en español?",
+      "choices": [
+        "Café con leche",
+        "Café sin leche",
+        "Leche de café",
+        "Café y agua"
+      ],
+      "answer": 0,
+      "explanation": "Café con leche = coffee with milk. \"Sin\" means \"without.\""
+    },
+    {
+      "id": "kathy-d01-02",
+      "section": "main",
+      "type": "text_answer",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Translate to Spanish: \"Good morning\"",
+      "answers": [
+        "Buenos días",
+        "Buen día"
+      ],
+      "hint": "Starts with \"B\"",
+      "explanation": "Buenos días is used until about noon; then buenas tardes.",
+      "attempts": 3
+    },
+    {
+      "id": "kathy-d01-03",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Which country produces the most coffee in the world?",
+      "choices": [
+        "Colombia",
+        "Vietnam",
+        "Ethiopia",
+        "Brazil"
+      ],
+      "answer": 3,
+      "explanation": "Brazil has been the world’s top coffee producer for over 150 years; Vietnam is #2."
+    },
+    {
+      "id": "kathy-d01-04",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Around what age do most babies say their first real word?",
+      "choices": [
+        "3 months",
+        "Around 12 months",
+        "2 years",
+        "3 years"
+      ],
+      "answer": 1,
+      "explanation": "Most babies say their first word somewhere around 10–14 months."
+    },
+    {
+      "id": "kathy-d01-05",
+      "section": "main",
+      "type": "wordle",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Adivina la palabra (Spanish!) de 5 letras.",
+      "word": "LECHE",
+      "hint": "Goes in your café ☕",
+      "explanation": "",
+      "maxGuesses": 6
+    }
+  ]
+}

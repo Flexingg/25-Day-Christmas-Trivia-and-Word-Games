@@ -1,0 +1,99 @@
+{
+  "day": 1,
+  "title": "Solid Orange",
+  "intro": "Go Tigers! 🐯 Warm up the brain — and maybe the old 486.",
+  "puzzles": [
+    {
+      "id": "dad-d01-01",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Clemson won its first football national championship in which season?",
+      "choices": [
+        "1978",
+        "1981",
+        "1988",
+        "2016"
+      ],
+      "answer": 1,
+      "explanation": "The 1981 Tigers, coached by Danny Ford, went 12–0 and beat Nebraska 22–15 in the Orange Bowl."
+    },
+    {
+      "id": "dad-d01-02",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Howard’s Rock, which players rub before running down the Hill, came from where?",
+      "choices": [
+        "Death Valley, California",
+        "Stone Mountain, Georgia",
+        "The Clemson quarry",
+        "Table Rock, SC"
+      ],
+      "answer": 0,
+      "explanation": "It was brought from Death Valley, CA and presented to coach Frank Howard in the 1960s."
+    },
+    {
+      "id": "dad-d01-03",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Which SQL clause filters groups AFTER aggregation?",
+      "choices": [
+        "WHERE",
+        "HAVING",
+        "ORDER BY",
+        "DISTINCT"
+      ],
+      "answer": 1,
+      "explanation": "WHERE filters rows before GROUP BY; HAVING filters the grouped results — e.g. HAVING COUNT(*) > 1."
+    },
+    {
+      "id": "dad-d01-04",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "What was the marketed capacity of a high-density 3.5\" floppy disk?",
+      "choices": [
+        "720 KB",
+        "1.2 MB",
+        "1.44 MB",
+        "2.88 MB"
+      ],
+      "answer": 2,
+      "explanation": "1.44 \"MB\" — which was actually 1,474,560 bytes (1440 × 1024)."
+    },
+    {
+      "id": "dad-d01-05",
+      "section": "main",
+      "type": "text_answer",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Westminster Shorter Catechism, Q1: \"What is the chief end of man?\"",
+      "answers": [
+        "To glorify God and to enjoy him forever",
+        "To glorify God and enjoy him forever",
+        "Glorify God and enjoy him forever"
+      ],
+      "hint": "Two verbs: one toward God’s glory, one toward delight.",
+      "explanation": "\"Man’s chief end is to glorify God, and to enjoy him forever.\" (1 Cor. 10:31; Ps. 73:25-26)",
+      "attempts": 3
+    },
+    {
+      "id": "dad-d01-06",
+      "section": "main",
+      "type": "wordle",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Guess the 5-letter word.",
+      "word": "QUERY",
+      "hint": "SELECT * FROM …",
+      "explanation": "",
+      "maxGuesses": 6
+    }
+  ]
+}

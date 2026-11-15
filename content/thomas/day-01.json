@@ -1,0 +1,113 @@
+{
+  "day": 1,
+  "title": "sudo make me a puzzle",
+  "intro": "Hard mode enabled, Thomas. Good luck. 🐧",
+  "puzzles": [
+    {
+      "id": "thomas-d01-01",
+      "section": "main",
+      "type": "text_answer",
+      "points": 1,
+      "status": "ready",
+      "prompt": "What is the name of the penguin mascot of the Linux kernel?",
+      "answers": [
+        "Tux"
+      ],
+      "hint": "",
+      "explanation": "Tux was drawn by Larry Ewing in 1996.",
+      "attempts": 3
+    },
+    {
+      "id": "thomas-d01-02",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "In the original Super Mario Bros. (NES), the infamous \"Minus World\" glitch is reached from which level?",
+      "choices": [
+        "1-1",
+        "1-2",
+        "4-2",
+        "8-4"
+      ],
+      "answer": 1,
+      "explanation": "By clipping through the wall at the end of 1-2 and entering the warp pipe, you reach the endless water level \"World −1\"."
+    },
+    {
+      "id": "thomas-d01-03",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "A group of flamingos is called a…",
+      "choices": [
+        "Flourish",
+        "Flamboyance",
+        "Fiasco",
+        "Pinkening"
+      ],
+      "answer": 1,
+      "explanation": "A flamboyance of flamingos. (A group of crows is a murder; a group of owls is a parliament.)"
+    },
+    {
+      "id": "thomas-d01-04",
+      "section": "main",
+      "type": "wordle",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Guess the 6-letter word. Only 5 guesses — you’re welcome.",
+      "word": "KERNEL",
+      "hint": "",
+      "explanation": "",
+      "maxGuesses": 5
+    },
+    {
+      "id": "thomas-d01-05",
+      "section": "main",
+      "type": "connections",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Find four groups of four that share something in common.",
+      "groups": [
+        {
+          "name": "Linux commands",
+          "words": [
+            "CAT",
+            "TAIL",
+            "WHO",
+            "MAN"
+          ]
+        },
+        {
+          "name": "Pac-Man ghosts",
+          "words": [
+            "BLINKY",
+            "PINKY",
+            "INKY",
+            "CLYDE"
+          ]
+        },
+        {
+          "name": "___fish",
+          "words": [
+            "SWORD",
+            "STAR",
+            "GOLD",
+            "JELLY"
+          ]
+        },
+        {
+          "name": "Units of data",
+          "words": [
+            "BIT",
+            "NIBBLE",
+            "BYTE",
+            "WORD"
+          ]
+        }
+      ],
+      "maxMistakes": 4,
+      "explanation": "MAN is a command (and part of Pac-Man!), CATfish is a red herring, and a WORD is a unit of data."
+    }
+  ]
+}

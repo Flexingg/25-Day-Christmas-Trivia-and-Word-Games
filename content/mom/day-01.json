@@ -1,0 +1,36 @@
+{
+  "day": 1,
+  "title": "Who Said That?!",
+  "intro": "Mom, how well do you REALLY know your kids and grandkids? 💝",
+  "puzzles": [
+    {
+      "id": "mom-d01-01",
+      "section": "main",
+      "type": "scramble",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Unscramble the letters:",
+      "answer": "GRANDKIDS",
+      "alsoAccept": [],
+      "hint": "Your favorite little people.",
+      "explanation": "",
+      "attempts": 3
+    },
+    {
+      "id": "mom-d01-02",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "draft",
+      "prompt": "[TEMPLATE] Which of your kids ___ when they were little?",
+      "choices": [
+        "Meg",
+        "Rafa",
+        "Thomas",
+        "Kathy"
+      ],
+      "answer": 0,
+      "explanation": "Replace with a real family fun fact!"
+    }
+  ]
+}

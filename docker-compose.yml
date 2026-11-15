@@ -1,0 +1,21 @@
+services:
+  randall-christmas:
+    build: .
+    image: randall-christmas:latest
+    container_name: randall-christmas
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      # CHANGE THIS — it protects the /admin page
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-changeme}
+      # Days unlock at midnight in this time zone
+      TZ: ${TZ:-America/New_York}
+      # Optional: defaults to the current year (can also be set in Admin -> Settings)
+      EVENT_YEAR: ${EVENT_YEAR:-}
+    volumes:
+      # SQLite database (progress + edited puzzles) and uploaded images live here.
+      - christmas-data:/data
+
+volumes:
+  christmas-data:

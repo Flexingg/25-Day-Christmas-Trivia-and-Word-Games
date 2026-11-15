@@ -1,0 +1,115 @@
+{
+  "day": 1,
+  "title": "Feathers, Hooves & Independence",
+  "intro": "Welcome to your Advent calendar, Meg! 🐦🐴🇲🇽",
+  "puzzles": [
+    {
+      "id": "meg-d01-01",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Which bird is the only one known to be able to fly backwards?",
+      "choices": [
+        "Kingfisher",
+        "Hummingbird",
+        "Swallow",
+        "Kestrel"
+      ],
+      "answer": 1,
+      "explanation": "Hummingbirds can hover, fly backwards, and even briefly fly upside down."
+    },
+    {
+      "id": "meg-d01-02",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Mexico’s War of Independence began in 1810 with the \"Grito de Dolores.\" Which priest gave the famous cry?",
+      "choices": [
+        "José María Morelos",
+        "Agustín de Iturbide",
+        "Miguel Hidalgo y Costilla",
+        "Vicente Guerrero"
+      ],
+      "answer": 2,
+      "explanation": "Father Miguel Hidalgo rang the church bell in Dolores on September 16, 1810 — now Mexican Independence Day."
+    },
+    {
+      "id": "meg-d01-03",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "A horse’s height is measured in \"hands.\" How many inches is one hand?",
+      "choices": [
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "answer": 2,
+      "explanation": "One hand = 4 inches, measured from the ground to the top of the withers."
+    },
+    {
+      "id": "meg-d01-04",
+      "section": "main",
+      "type": "wordle",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Guess the 5-letter bird.",
+      "word": "EGRET",
+      "hint": "A wading bird with snowy plumes.",
+      "explanation": "",
+      "maxGuesses": 6
+    },
+    {
+      "id": "meg-d01-05",
+      "section": "main",
+      "type": "connections",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Find four groups of four that share something in common.",
+      "groups": [
+        {
+          "name": "Horse gaits",
+          "words": [
+            "WALK",
+            "TROT",
+            "CANTER",
+            "GALLOP"
+          ]
+        },
+        {
+          "name": "Birds of prey",
+          "words": [
+            "HAWK",
+            "FALCON",
+            "OSPREY",
+            "KITE"
+          ]
+        },
+        {
+          "name": "Mexican states",
+          "words": [
+            "SONORA",
+            "JALISCO",
+            "OAXACA",
+            "CHIAPAS"
+          ]
+        },
+        {
+          "name": "Horse face markings",
+          "words": [
+            "BLAZE",
+            "STAR",
+            "SNIP",
+            "STRIPE"
+          ]
+        }
+      ],
+      "maxMistakes": 4,
+      "explanation": "KITE is a bird of prey, and STAR is a face marking — not something you fly or wish upon!"
+    }
+  ]
+}

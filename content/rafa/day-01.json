@@ -1,0 +1,80 @@
+{
+  "day": 1,
+  "title": "Play Ball!",
+  "intro": "¡Bienvenido, Rafa! Let’s warm up. ⚾",
+  "puzzles": [
+    {
+      "id": "rafa-d01-01",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Which Mexican-born pitcher won both the NL Rookie of the Year and the Cy Young Award in 1981, sparking \"Fernandomania\"?",
+      "choices": [
+        "Teddy Higuera",
+        "Fernando Valenzuela",
+        "Esteban Loaiza",
+        "Julio Urías"
+      ],
+      "answer": 1,
+      "explanation": "Fernando Valenzuela from Etchohuaquila, Sonora, did it with the Dodgers in 1981 — the only player ever to win both in the same season."
+    },
+    {
+      "id": "rafa-d01-02",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "The champion of the Liga Mexicana del Pacífico goes on to play in which international tournament each February?",
+      "choices": [
+        "World Baseball Classic",
+        "Serie del Caribe",
+        "Little League World Series",
+        "Pan American Games"
+      ],
+      "answer": 1,
+      "explanation": "The Serie del Caribe pits the winter-league champions of Mexico, the Dominican Republic, Puerto Rico, Venezuela and others against each other."
+    },
+    {
+      "id": "rafa-d01-03",
+      "section": "main",
+      "type": "multiple_choice",
+      "points": 1,
+      "status": "ready",
+      "prompt": "In American slang, if your food is \"bussin’,\" it is…",
+      "choices": [
+        "Cold",
+        "Really, really good",
+        "Overpriced",
+        "Delivered late"
+      ],
+      "answer": 1,
+      "explanation": "\"Bussin’\" means extremely good — usually about food."
+    },
+    {
+      "id": "rafa-d01-04",
+      "section": "main",
+      "type": "scramble",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Unscramble the letters:",
+      "answer": "HOME RUN",
+      "alsoAccept": [],
+      "hint": "Four bases, one swing.",
+      "explanation": "",
+      "attempts": 3
+    },
+    {
+      "id": "rafa-d01-05",
+      "section": "main",
+      "type": "wordle",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Guess the 5-letter baseball word.",
+      "word": "PITCH",
+      "hint": "",
+      "explanation": "",
+      "maxGuesses": 6
+    }
+  ]
+}

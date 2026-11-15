@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "meg",
+    "name": "Meg",
+    "emoji": "🐦",
+    "color": "#2e8b57",
+    "sort": 1,
+    "tagline": "Birds, horses & the history of México",
+    "description": "Birding, equestrian life and Mexican history trivia, with themed word games."
+  },
+  {
+    "slug": "rafa",
+    "name": "Rafa",
+    "emoji": "⚾",
+    "color": "#c0392b",
+    "sort": 2,
+    "tagline": "Béisbol & American slang",
+    "description": "Mexican baseball (LMP, LMB, Serie del Caribe), some MLB, and American slang wordplay."
+  },
+  {
+    "slug": "thomas",
+    "name": "Thomas",
+    "emoji": "🐧",
+    "color": "#5b4b9a",
+    "sort": 3,
+    "tagline": "Video games, Linux & weird facts. Hard mode.",
+    "description": "Video games, Linux and off-the-wall facts, with ridiculously difficult word games."
+  },
+  {
+    "slug": "kathy",
+    "name": "Kathy",
+    "emoji": "☕",
+    "color": "#a0522d",
+    "sort": 4,
+    "tagline": "Español, café y la vida de mamá",
+    "description": "Easy to medium Spanish practice (Duolingo level), coffee, and young-mom facts."
+  },
+  {
+    "slug": "mom",
+    "name": "Mom",
+    "emoji": "💝",
+    "color": "#d6336c",
+    "sort": 5,
+    "tagline": "How well do you know your kids & grandkids?",
+    "description": "Questions about her children and grandchildren, built from family fun facts."
+  },
+  {
+    "slug": "dad",
+    "name": "Dad",
+    "emoji": "🐯",
+    "color": "#f56600",
+    "sort": 6,
+    "tagline": "Clemson, SQL, retro tech & theology",
+    "description": "Clemson football, SQL and 90s–2010s computer engineering, and Presbyterian theology."
+  }
+]
