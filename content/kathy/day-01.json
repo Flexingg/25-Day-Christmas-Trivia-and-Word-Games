@@ -76,7 +76,8 @@
       "word": "LECHE",
       "hint": "Goes in your café ☕",
       "explanation": "",
-      "maxGuesses": 6
+      "maxGuesses": 6,
+      "dictionary": "es"
     }
   ]
 }

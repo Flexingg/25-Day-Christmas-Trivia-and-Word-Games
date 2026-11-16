@@ -10,9 +10,14 @@
     "test": "node --test test/*.test.js",
     "bundle-to-content": "node scripts/bundle-to-content.js"
   },
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
+    "an-array-of-spanish-words": "^2.0.0",
     "better-sqlite3": "^11.7.0",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "naughty-words": "^1.2.0",
+    "wordlist-english": "^1.2.1"
   }
 }

@@ -1,0 +1,43 @@
+{
+  "day": 2,
+  "title": "Retro Windows",
+  "intro": "A trip down memory lane, one Start button at a time. 🖥️",
+  "puzzles": [
+    {
+      "id": "dad-d02-01",
+      "section": "main",
+      "type": "timeline",
+      "points": 2,
+      "status": "ready",
+      "prompt": "Put these Windows releases in order, oldest first.",
+      "items": [
+        {
+          "label": "Windows 3.1",
+          "detail": "April 1992"
+        },
+        {
+          "label": "Windows 95",
+          "detail": "August 1995"
+        },
+        {
+          "label": "Windows 98",
+          "detail": "June 1998"
+        },
+        {
+          "label": "Windows XP",
+          "detail": "October 2001"
+        },
+        {
+          "label": "Windows Vista",
+          "detail": "January 2007"
+        },
+        {
+          "label": "Windows 7",
+          "detail": "October 2009"
+        }
+      ],
+      "attempts": 3,
+      "explanation": "Windows 95 brought the Start menu and taskbar, and XP stayed popular for over a decade. (Vista reached stores in January 2007, after a late-2006 release to businesses.)"
+    }
+  ]
+}

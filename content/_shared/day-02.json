@@ -1,0 +1,22 @@
+{
+  "day": 2,
+  "title": "",
+  "intro": "",
+  "puzzles": [
+    {
+      "id": "shared-d02-01",
+      "section": "faith",
+      "type": "verse",
+      "points": 1,
+      "status": "ready",
+      "prompt": "Fill in the missing words from this prophecy of the Messiah.",
+      "reference": "Micah 5:2",
+      "translation": "ESV",
+      "text": "But you, O [Bethlehem] Ephrathah, who are too little to be among the clans of Judah, from you shall come forth for me one who is to be [ruler] in Israel, whose coming forth is from of old, from [ancient] days.",
+      "wordBank": false,
+      "decoys": [],
+      "attempts": 3,
+      "explanation": "Written about 700 years before Jesus was born. The chief priests and scribes quoted it to Herod when the Magi asked where the Christ was to be born (Matthew 2:4-6)."
+    }
+  ]
+}

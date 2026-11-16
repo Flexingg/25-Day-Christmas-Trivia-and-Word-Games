@@ -45,6 +45,13 @@ export function render(p, ctx) {
     });
   };
 
+  const shake = () => {
+    const row = rows[guesses.length];
+    row?.classList.remove('shake');
+    void row?.offsetWidth;
+    row?.classList.add('shake');
+  };
+
   const self = {
     id: p.id,
     el: grid,
@@ -52,12 +59,11 @@ export function render(p, ctx) {
       if (done) return;
       if (k === 'ENTER') {
         if (current.length !== length) {
-          rows[guesses.length]?.classList.remove('shake');
-          void rows[guesses.length]?.offsetWidth;
-          rows[guesses.length]?.classList.add('shake');
+          shake();
           return ctx.say(`Need ${length} letters`, false);
         }
-        return ctx.submit({ guess: current });
+        // a rejected guess (e.g. "Not in word list") keeps the typed letters so the player can fix them
+        return ctx.submit({ guess: current }).then(ok => { if (ok === false) shake(); });
       }
       if (k === 'DEL') current = current.slice(0, -1);
       else if (current.length < length) current += k;

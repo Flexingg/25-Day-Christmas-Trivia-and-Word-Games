@@ -1,5 +1,5 @@
 import { h, api, ApiError, toast } from './util.js';
-import { TYPE_FIELDS, answerSummary, promptSummary } from './puzzle-types.js';
+import { TYPE_FIELDS, answerSummary, promptSummary, crosswordNumbers } from './puzzle-types.js';
 
 const view = document.getElementById('admin-view');
 const tabsEl = document.getElementById('tabs');
@@ -316,13 +316,55 @@ function stripMeta(m) {
   return c;
 }
 
+const wordRechecks = new WeakMap(); // model -> function that re-runs the "is the secret word a dictionary word?" hint
+
 function fieldEditor(f, model) {
-  const lab = (...kids) => h('label.f' + (['textarea', 'choices', 'groups', 'list', 'image'].includes(f.kind) || f.wide ? '.wide' : ''), f.label, ...kids);
+  const lab = (...kids) => h('label.f' + (['textarea', 'choices', 'groups', 'list', 'image', 'rows', 'grid', 'checkbox', 'beewords'].includes(f.kind) || f.wide ? '.wide' : ''), f.label, ...kids);
   switch (f.kind) {
     case 'text': {
-      const el = h('input', { value: model[f.key] ?? '' });
-      el.oninput = () => { model[f.key] = f.upper ? el.value.toUpperCase() : el.value; if (f.upper) el.value = model[f.key]; };
+      const el = h('input', { value: model[f.key] ?? '', maxlength: f.maxlength });
+      el.oninput = () => { model[f.key] = f.upper ? el.value.toUpperCase() : el.value; if (f.upper) el.value = model[f.key]; if (f.wordCheck) recheck(); };
+      if (!f.wordCheck) return lab(el);
+      // soft, non-blocking hint when the secret word isn't in the chosen dictionary (it still works as the answer)
+      const note = h('div.muted', { style: { fontSize: '.8rem' } });
+      let timer;
+      const recheck = () => {
+        clearTimeout(timer);
+        timer = setTimeout(async () => {
+          const lang = model.dictionary || 'en';
+          const word = (model[f.key] || '').trim();
+          if (!word || lang === 'off') return note.replaceChildren();
+          try {
+            const r = await api('GET', `/api/admin/dictionary/check?word=${encodeURIComponent(word)}&lang=${lang}`);
+            note.replaceChildren(r.isWord ? '' : `⚠️ ${r.word} isn’t in the ${lang === 'es' ? 'Spanish' : lang === 'any' ? 'English/Spanish' : 'English'} word list${r.blocked ? ' (it’s on the blocked list)' : ''}. It will still work as the answer, but players can’t guess it as a regular word — add it in Settings if you want that.`);
+          } catch { note.replaceChildren(); }
+        }, 350);
+      };
+      wordRechecks.set(model, recheck);
+      recheck();
+      return lab(el, note);
+    }
+    case 'select': {
+      const el = h('select', f.options.map(([value, text]) => h('option', { value, selected: (model[f.key] ?? f.default) === value }, text)));
+      el.onchange = () => { model[f.key] = el.value; wordRechecks.get(model)?.(); };
       return lab(el);
+    }
+    case 'beewords': {
+      // the word list, plus a button that fills it from the dictionary for the chosen letters
+      const el = h('textarea', (model[f.key] || []).join('\n'));
+      el.oninput = () => { model[f.key] = el.value.split('\n').map(s => s.trim()).filter(Boolean); };
+      const note = h('div.muted', { style: { fontSize: '.8rem' } });
+      const btn = h('button.btn.secondary.small', { type: 'button', onclick: async () => {
+        note.replaceChildren('Looking…');
+        try {
+          const r = await api('POST', '/api/admin/dictionary/bee', { center: model.center, outer: model.outer, minLength: model.minLength || 4 });
+          const have = new Set((model[f.key] || []).map(w => w.toUpperCase()));
+          const merged = [...(model[f.key] || []), ...r.words.map(x => x.word).filter(w => !have.has(w))];
+          model[f.key] = merged; el.value = merged.join('\n');
+          note.replaceChildren(`Found ${r.count} common English words (${r.pangrams} pangram${r.pangrams === 1 ? '' : 's'}: ${r.words.filter(x => x.pangram).map(x => x.word).join(', ') || 'none'}). They’ve been added to the list — delete any you don’t want to count.`);
+        } catch (e) { note.replaceChildren(e.message); }
+      } }, '✨ Suggest words from dictionary');
+      return lab(el, h('div.row', btn), note);
     }
     case 'textarea': {
       const el = h('textarea', model[f.key] ?? '');
@@ -338,6 +380,57 @@ function fieldEditor(f, model) {
       const el = h('textarea', (model[f.key] || []).join('\n'));
       el.oninput = () => { model[f.key] = el.value.split('\n').map(s => s.trim()).filter(Boolean); };
       return lab(el);
+    }
+    case 'checkbox': {
+      const el = h('input', { type: 'checkbox', checked: !!model[f.key], style: { width: 'auto' } });
+      el.onchange = () => { model[f.key] = el.checked; };
+      return h('label.f.wide', { style: { flexDirection: 'row', alignItems: 'center', gap: '8px' } }, el, f.label);
+    }
+    case 'rows': {
+      // repeating rows of text boxes, e.g. timeline items {label, detail} or quotes {quote, who}
+      model[f.key] = model[f.key] || [];
+      const blank = () => Object.fromEntries(f.columns.map(c => [c.key, '']));
+      while (model[f.key].length < (f.minRows || 0)) model[f.key].push(blank());
+      const rows = model[f.key];
+      const wrap = h('div');
+      const draw = () => {
+        wrap.replaceChildren(...rows.map((row, i) => {
+          const move = (d) => { const j = i + d; if (j < 0 || j >= rows.length) return; [rows[i], rows[j]] = [rows[j], rows[i]]; draw(); };
+          return h('div.choice-row',
+            f.ordered ? h('b', { style: { width: '1.4em', textAlign: 'right' } }, i + 1) : null,
+            f.columns.map(c => {
+              const inp = h('input.ainput', { type: 'text', value: row[c.key] ?? '', placeholder: c.placeholder || c.label, 'aria-label': c.label, style: { flex: c.wide ? '3 1 180px' : '1 1 120px', minWidth: 0 } });
+              inp.oninput = () => { row[c.key] = inp.value; };
+              return inp;
+            }),
+            f.ordered ? h('button.iconbtn', { type: 'button', title: 'Move up', onclick: () => move(-1) }, '↑') : null,
+            f.ordered ? h('button.iconbtn', { type: 'button', title: 'Move down', onclick: () => move(1) }, '↓') : null,
+            h('button.iconbtn.danger', { type: 'button', onclick: () => { rows.splice(i, 1); draw(); } }, '✕'));
+        }), h('button.iconbtn', { type: 'button', onclick: () => { rows.push(blank()); draw(); } }, '+ Add row'));
+      };
+      draw();
+      return lab(wrap);
+    }
+    case 'grid': {
+      // crossword rows, with a live numbered preview so you can see how many clues are needed
+      const el = h('textarea', { style: { fontFamily: 'ui-monospace, monospace', letterSpacing: '.15em', textTransform: 'uppercase' } }, (model[f.key] || []).join('\n'));
+      const preview = h('div');
+      const draw = () => {
+        const info = crosswordNumbers(model[f.key]);
+        const W = Math.max(0, ...info.rows.map(r => r.length));
+        preview.replaceChildren(
+          h('div', { style: { display: 'grid', gridTemplateColumns: `repeat(${W || 1}, 30px)`, gap: '2px', margin: '8px 0', width: 'fit-content', maxWidth: '100%', overflowX: 'auto' } },
+            info.rows.flatMap((row, r) => Array.from({ length: W }, (_, c) => {
+              const ch = row[c] || '#';
+              return h('div', { style: { width: '30px', height: '30px', position: 'relative', background: ch === '#' ? '#2b2118' : '#fff', border: '1px solid #d7ccb9', fontSize: '.8rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+                info.numbers[`${r},${c}`] ? h('span', { style: { position: 'absolute', top: 0, left: 2, fontSize: '.5rem', fontWeight: 700, color: '#666' } }, info.numbers[`${r},${c}`]) : null,
+                ch === '#' ? '' : ch);
+            }))),
+          h('div.muted', { style: { fontWeight: 400 } }, `Needs ${info.across.length} across clues (${info.across.join(', ') || '—'}) and ${info.down.length} down clues (${info.down.join(', ') || '—'}).`));
+      };
+      el.oninput = () => { model[f.key] = el.value.split('\n').map(s => s.trim().toUpperCase()).filter(Boolean); draw(); };
+      draw();
+      return lab(el, preview);
     }
     case 'image': {
       const url = h('input', { value: model[f.key] || '', placeholder: 'https://… or upload →' });
@@ -475,6 +568,9 @@ async function settingsView() {
   const year = h('input', { type: 'number', value: s.event_year || '', placeholder: String(s.calendar.eventYear) });
   const date = h('input', { type: 'date', value: s.date_override || '' });
   const msg = h('div');
+  const allow = h('textarea', { rows: 4, placeholder: 'RIZZ\nDISTRO\nCLEMSON' }, (s.dict_allow || '').split(/\s+/).join(' '));
+  const block = h('textarea', { rows: 3 }, (s.dict_block || '').split(/\s+/).join(' '));
+  const dictMsg = h('div');
   const syncMsg = h('div');
   const force = h('input', { type: 'checkbox' });
   const importFile = h('input', { type: 'file', accept: 'application/json' });
@@ -503,6 +599,23 @@ async function settingsView() {
         h('button.btn.secondary.small', { onclick: () => { date.value = ''; } }, 'Clear date override')),
       msg,
       h('p.muted', 'The date override affects everyone — remember to clear it before December 1st! The time zone comes from the TZ environment variable.')),
+    h('div.panel',
+      h('h3', 'Word checking'),
+      h('p', 'Wordle guesses (and the Spelling Bee’s “real word” check) use a built-in dictionary. Add words it doesn’t know, or block ones you don’t want, here. Separate words with spaces or new lines.'),
+      h('div.form-grid',
+        h('label.f.wide', 'Extra allowed words (slang, names, tech terms — e.g. RIZZ, DISTRO, CLEMSON)', allow),
+        h('label.f.wide', 'Blocked words (never accepted as guesses or suggested)', block)),
+      h('div.row', { style: { marginTop: '10px' } },
+        h('button.btn.small', {
+          onclick: async () => {
+            try {
+              await api('PUT', '/api/admin/settings', { dict_allow: allow.value, dict_block: block.value });
+              dictMsg.replaceChildren(h('div.ok', 'Saved. The new word lists are live now.'));
+            } catch (e) { dictMsg.replaceChildren(h('div.errors', e.message)); }
+          },
+        }, 'Save word lists')),
+      dictMsg,
+      h('p.muted', 'Words with accents or ñ are matched without them (NIÑO = NINO). Spelling Bee suggestions only use English.')),
     h('div.panel',
       h('h3', 'Content'),
       h('p', 'Puzzles live in the database (edited here). The repo’s content/ folder holds the "source" JSON. Use these to move content between them.'),
