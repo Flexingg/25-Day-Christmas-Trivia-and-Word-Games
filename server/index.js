@@ -8,6 +8,7 @@ const { db, DATA_DIR, getSetting, setSetting, getSecret } = require('./db');
 const { calendarInfo, unlockedThrough, LAST_DAY } = require('./dates');
 const { types, SECTIONS, getType, clientPuzzle, SubmissionError } = require('./puzzles');
 const content = require('./content');
+const dictionary = require('./dictionary');
 
 const PORT = Number(process.env.PORT || 3000);
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'changeme';
@@ -226,12 +227,12 @@ api.post('/paths/:slug/puzzles/:id/answer', wrap((req, res) => {
     player: ctx.player, puzzle_id: p.id,
     status: result.done ? 'done' : 'in_progress',
     correct: result.correct ? 1 : 0,
-    score: result.done && result.correct ? p.points : 0,
+    score: result.done ? Math.round(p.points * (result.fraction ?? (result.correct ? 1 : 0))) : 0,
     state: JSON.stringify(st), now,
     completed_at: result.done ? now : null,
   });
   row = db.prepare('SELECT * FROM progress WHERE player = ? AND puzzle_id = ?').get(ctx.player, p.id);
-  res.json({ feedback: result.feedback, correct: !!result.correct, puzzle: clientPuzzle(p, row) });
+  res.json({ feedback: result.feedback, correct: !!result.correct, good: !!result.good, puzzle: clientPuzzle(p, row) });
 }));
 
 // --- admin API ---
@@ -428,12 +429,20 @@ admin.get('/settings', (req, res) => {
   res.json({
     event_year: getSetting('event_year', ''),
     date_override: getSetting('date_override', ''),
+    dict_allow: getSetting('dict_allow', ''),
+    dict_block: getSetting('dict_block', ''),
     calendar: calendarInfo(),
   });
 });
 
 admin.put('/settings', wrap((req, res) => {
-  const { event_year, date_override } = req.body;
+  const { event_year, date_override, dict_allow, dict_block } = req.body;
+  for (const [key, val] of [['dict_allow', dict_allow], ['dict_block', dict_block]]) {
+    if (val === undefined) continue;
+    if (String(val).length > 20000) throw new HttpError(400, 'That word list is too long');
+    // stored as one normalized word per line; the dictionary module notices the change on its next check
+    setSetting(key, [...new Set(String(val).split(/[\s,;]+/).map(dictionary.lettersOnly).filter(Boolean))].join('\n'));
+  }
   if (event_year !== undefined) {
     if (event_year && !/^\d{4}$/.test(String(event_year))) throw new HttpError(400, 'Year must look like 2026');
     setSetting('event_year', event_year || '');
@@ -443,6 +452,22 @@ admin.put('/settings', wrap((req, res) => {
     setSetting('date_override', date_override || '');
   }
   res.json({ ok: true, calendar: calendarInfo() });
+}));
+
+// Is this word in the dictionary? (soft warning in the puzzle form; never blocks saving)
+admin.get('/dictionary/check', wrap((req, res) => {
+  const lang = ['en', 'es', 'any'].includes(req.query.lang) ? req.query.lang : 'en';
+  const word = dictionary.lettersOnly(req.query.word);
+  res.json({ word, lang, isWord: dictionary.isWord(word, lang), blocked: dictionary.isBlocked(word) });
+}));
+
+// Every common English word that fits a honeycomb, longest first (pangrams flagged)
+admin.post('/dictionary/bee', wrap((req, res) => {
+  const center = dictionary.lettersOnly(req.body.center).slice(0, 1);
+  const outer = [...new Set(dictionary.lettersOnly(req.body.outer))].filter(ch => ch !== center).join('');
+  if (!center || outer.length < 1) throw new HttpError(400, 'Enter the center letter and the outer letters first');
+  const words = dictionary.beeSuggestions(center, outer, Number(req.body.minLength) || 4);
+  res.json({ words, count: words.length, pangrams: words.filter(w => w.pangram).length });
 }));
 
 admin.get('/export', (req, res) => {

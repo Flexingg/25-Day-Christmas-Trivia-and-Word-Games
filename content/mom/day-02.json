@@ -1,0 +1,40 @@
+{
+  "day": 2,
+  "title": "Who Said That?!",
+  "intro": "PLACEHOLDER day: replace these with real family quotes. 💝",
+  "puzzles": [
+    {
+      "id": "mom-d02-01",
+      "section": "main",
+      "type": "who_said_it",
+      "points": 2,
+      "status": "draft",
+      "prompt": "[PLACEHOLDER] Who said it? Replace these with real family quotes!",
+      "people": [
+        "Meg",
+        "Rafa",
+        "Thomas",
+        "Kathy"
+      ],
+      "quotes": [
+        {
+          "quote": "[PLACEHOLDER] A famous Meg quote goes here",
+          "who": "Meg"
+        },
+        {
+          "quote": "[PLACEHOLDER] A famous Rafa quote goes here",
+          "who": "Rafa"
+        },
+        {
+          "quote": "[PLACEHOLDER] A famous Thomas quote goes here",
+          "who": "Thomas"
+        },
+        {
+          "quote": "[PLACEHOLDER] A famous Kathy quote goes here",
+          "who": "Kathy"
+        }
+      ],
+      "explanation": "Replace with the story behind the quotes!"
+    }
+  ]
+}

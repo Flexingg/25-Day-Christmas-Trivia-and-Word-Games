@@ -128,3 +128,57 @@ test('export round-trips and sync skips admin edits', async () => {
   const review = await call('GET', '/api/admin/review/dad', null, adminCookie);
   assert.equal(review.body.find(r => r.id === 'dad-d01-06').word, 'TABLE');
 });
+
+test('partial credit: a finished-but-imperfect puzzle scores a fraction of its points', async () => {
+  const day = await call('GET', '/api/paths/dad/days/2');
+  const tl = day.body.puzzles.find(p => p.id === 'dad-d02-01');
+  assert.equal(tl.type, 'timeline');
+  assert.ok(!JSON.stringify(tl).includes('1995'), 'details are hidden until the puzzle ends');
+  const right = ['Windows 3.1', 'Windows 95', 'Windows 98', 'Windows XP', 'Windows Vista', 'Windows 7'];
+  const answer = (order) => call('POST', '/api/paths/dad/puzzles/dad-d02-01/answer', { submission: { order } });
+  let r = await answer([...right.slice(0, 4), right[5], right[4]]);
+  assert.equal(r.body.puzzle.status, 'in_progress');
+  r = await answer([right[1], right[0], ...right.slice(2)]);
+  r = await answer([...right].reverse());
+  assert.equal(r.body.puzzle.status, 'done');
+  assert.equal(r.body.correct, false);
+  assert.equal(r.body.puzzle.score, 1); // best attempt had 4 of 6 right: round(2 * 4/6)
+  assert.equal(r.body.puzzle.reveal.items[0].detail, 'April 1992');
+});
+
+test('wordle word checking through the API, with admin-managed allow list', async () => {
+  await call('PUT', '/api/admin/puzzles/dad-d01-06', { type: 'wordle', section: 'main', word: 'QUERY', status: 'ready', points: 3, maxGuesses: 3 }, adminCookie);
+  const guess = (g) => call('POST', '/api/paths/dad/puzzles/dad-d01-06/answer', { submission: { guess: g } });
+  let r = await guess('XYZZQ');
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error ?? r.body.message, 'Not in word list');
+  assert.equal((await call('GET', '/api/paths/dad/days/1')).body.puzzles.find(p => p.id === 'dad-d01-06').state.guesses.length, 0);
+
+  assert.equal((await guess('RIZZY')).status, 400);
+  await call('PUT', '/api/admin/settings', { dict_allow: 'rizzy' }, adminCookie);
+  assert.equal((await call('GET', '/api/admin/settings', null, adminCookie)).body.dict_allow, 'RIZZY');
+  assert.equal((await guess('RIZZY')).status, 200);
+  await call('PUT', '/api/admin/settings', { dict_allow: '' }, adminCookie);
+});
+
+test('admin dictionary endpoints: check and bee suggestions', async () => {
+  assert.equal((await call('GET', '/api/admin/dictionary/check?word=egret&lang=en')).status, 401);
+  let r = await call('GET', '/api/admin/dictionary/check?word=egret&lang=en', null, adminCookie);
+  assert.equal(r.body.isWord, true);
+  r = await call('GET', '/api/admin/dictionary/check?word=xyzzq', null, adminCookie);
+  assert.equal(r.body.isWord, false);
+  r = await call('GET', '/api/admin/dictionary/check?word=leche&lang=es', null, adminCookie);
+  assert.equal(r.body.isWord, true);
+
+  r = await call('POST', '/api/admin/dictionary/bee', { center: 'T', outer: 'MISLEO', minLength: 4 }, adminCookie);
+  assert.equal(r.status, 200);
+  const byWord = Object.fromEntries(r.body.words.map(w => [w.word, w]));
+  assert.equal(byWord.MISTLETOE.pangram, true);
+  assert.ok(byWord.STOLE && !byWord.STOLE.pangram);
+  assert.ok(!byWord.MOLEST, 'blocked words are left out');
+  assert.ok(r.body.words.every(w => w.word.includes('T') && w.word.length >= 4));
+  assert.ok(r.body.words[0].word.length >= r.body.words[r.body.words.length - 1].word.length, 'longest first');
+  assert.equal(r.body.count, r.body.words.length);
+  assert.ok(r.body.pangrams >= 1);
+  assert.equal((await call('POST', '/api/admin/dictionary/bee', { center: '', outer: '' }, adminCookie)).status, 400);
+});

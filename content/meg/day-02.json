@@ -1,0 +1,34 @@
+{
+  "day": 2,
+  "title": "Wings & Hooves",
+  "intro": "Birds, horses, and a little crossword to stretch your brain. 🐴",
+  "puzzles": [
+    {
+      "id": "meg-d02-01",
+      "section": "main",
+      "type": "crossword",
+      "points": 3,
+      "status": "ready",
+      "prompt": "Mini crossword: birds, horses and a little bit of the outdoors.",
+      "grid": [
+        "EGRET",
+        "A#A#E",
+        "RIDER",
+        "T#I#N",
+        "HOOFS"
+      ],
+      "across": [
+        "Snowy white wading bird with long plumes",
+        "Person in the saddle",
+        "What a farrier trims on a horse"
+      ],
+      "down": [
+        "Planet where all the birds and horses live",
+        "Car dial for Christmas carols",
+        "Seabirds famous for very long migrations"
+      ],
+      "maxChecks": 3,
+      "explanation": "The Arctic tern migrates from the Arctic to the Antarctic and back, one of the longest migrations of any animal."
+    }
+  ]
+}

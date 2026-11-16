@@ -4,10 +4,17 @@ import * as text_answer from './puzzles/text_answer.js';
 import * as scramble from './puzzles/scramble.js';
 import * as wordle from './puzzles/wordle.js';
 import * as connections from './puzzles/connections.js';
+import * as rebus from './puzzles/rebus.js';
+import * as verse from './puzzles/verse.js';
+import * as timeline from './puzzles/timeline.js';
+import * as who_said_it from './puzzles/who_said_it.js';
+import * as spelling_bee from './puzzles/spelling_bee.js';
+import * as crossword from './puzzles/crossword.js';
 
-const RENDERERS = { multiple_choice, text_answer, scramble, wordle, connections };
+const RENDERERS = { multiple_choice, text_answer, scramble, wordle, connections, rebus, verse, timeline, who_said_it, spelling_bee, crossword };
 const TYPE_LABELS = {
   multiple_choice: 'Trivia', text_answer: 'Trivia', scramble: 'Scramble', wordle: 'Wordle', connections: 'Connections',
+  rebus: 'Rebus', verse: 'Verse', timeline: 'Timeline', who_said_it: 'Who said it?', spelling_bee: 'Spelling Bee', crossword: 'Crossword',
 };
 const SECTION_ICONS = { main: '⭐', christmas: '🎄', faith: '✝️' };
 
@@ -210,21 +217,23 @@ function puzzleCard(initial, slug, preview, allOnDay) {
     const ctx = {
       say(msg, good) { feedback.textContent = msg; feedback.className = 'feedback ' + (good ? 'good' : 'bad'); },
       async submit(submission) {
-        if (busy) return;
+        if (busy) return false;
         busy = true;
         try {
           const res = await api('POST', `/api/paths/${slug}/puzzles/${encodeURIComponent(p.id)}/answer${q(preview)}`, { submission });
           Object.assign(p, res.puzzle);
           const idx = allOnDay.findIndex(x => x.id === p.id);
           if (idx >= 0) allOnDay[idx] = res.puzzle;
-          draw(res.puzzle, { msg: res.feedback, good: res.correct || (res.puzzle.status !== 'done' && /^Yes/.test(res.feedback)) });
+          draw(res.puzzle, { msg: res.feedback, good: res.correct || res.good || (res.puzzle.status !== 'done' && /^Yes/.test(res.feedback)) });
           if (res.puzzle.status === 'done' && res.correct) confettiSmall();
           if (allOnDay.every(x => x.status === 'done')) {
             setTimeout(() => { confetti(); toast('🎉 Day complete! See you tomorrow!', 3500); }, 400);
           }
+          return true;
         } catch (e) {
           if (e instanceof ApiError && e.status < 500) ctx.say(e.message, false);
           else ctx.say('Couldn’t reach the North Pole. Try again?', false);
+          return false; // rejected: the renderer keeps what the player typed
         } finally { busy = false; }
       },
     };
@@ -234,7 +243,7 @@ function puzzleCard(initial, slug, preview, allOnDay) {
       h('div.meta',
         h('span', TYPE_LABELS[p.type] || p.type, p.title ? ` · ${p.title}` : ''),
         h('span', p.draft ? h('span.badge.draft', 'DRAFT') : null, ' ',
-          done ? (p.correct ? `✅ +${p.score}` : '❌ 0') : `${p.points} pt${p.points === 1 ? '' : 's'}`)),
+          done ? (p.correct ? `✅ +${p.score}` : p.score ? `🔸 +${p.score}` : '❌ 0') : `${p.points} pt${p.points === 1 ? '' : 's'}`)),
       p.data.image ? h('img.pimg', { src: p.data.image, alt: '' }) : null,
       p.data.prompt ? h('p.prompt', p.data.prompt) : null,
       p.data.hint && !done ? h('p.hint', `💡 Hint: ${p.data.hint}`) : null,

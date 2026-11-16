@@ -32,14 +32,14 @@ Spanish, for example, and Dad's faith section can go deeper on the Westminster S
 | `scramble` | Unscramble a word or phrase | 1 |
 | `wordle` | Guess the hidden 3–10 letter word with green/yellow/gray feedback | 3 |
 | `connections` | 16 words, find the 4 hidden groups of 4, 4 mistakes allowed | 3 |
+| `rebus` | Emoji rebus, e.g. "🐴 + 👞" → *horseshoe*; 3 tries | 1 |
+| `verse` | Fill in the blanks of a Bible verse (typed, or tap-to-fill word bank); partial credit | 1 |
+| `timeline` | Put events in order with ▲/▼; correct spots lock green between tries; partial credit | 2 |
+| `who_said_it` | Match each quote to the family member who said it (great for Mom); partial credit | 2 |
+| `spelling_bee` | Make words from 7 letters (center letter required); hit the target for full credit | 3 |
+| `crossword` | Mini crossword with auto-numbering, limited checks, saved in-progress letters; partial credit | 3 |
 
-### Puzzle types planned for phase 2 (templates)
-- **Mini crossword**: 5×5 themed grid
-- **Emoji rebus**: "🐴 + 👞" → *horseshoe*
-- **Fill in the verse**: a Bible verse with a missing word (ESV/KJV)
-- **Timeline / put in order**: drag events into chronological order (Mexican history, Clemson seasons, console releases)
-- **Who said it?**: match the quote to the family member (great for Mom)
-- **Spelling Bee**: make words from 7 letters
+Puzzles may award **partial credit** (`fraction` from the engine): score = round(points × fraction).
 
 ### Difficulty arc (all paths)
 - **Dec 1–7: Warm-up.** Approachable questions, so everyone gets hooked.
@@ -181,8 +181,9 @@ Dec 25 with the birth itself.
 
 1. ✅ **Phase 1: Framework.** App, gating, progress, five puzzle types, admin editor, Docker,
    Day 1 samples for every path.
-2. **Phase 2: Templates.** Add the planned puzzle types (crossword, rebus, verse fill-in,
-   timeline, who-said-it) and draft a skeleton of all 25 days per path.
+2. 🚧 **Phase 2: Templates.** ✅ The new puzzle types (crossword, rebus, verse fill-in, timeline,
+   who-said-it, spelling bee) are built, each with a Day 2 sample. Still to do: draft a skeleton of
+   all 25 days per path.
 3. **Phase 3: Content.** Generate the full question sets per path; collect Mom's family facts;
    review and polish everything in the admin Review tab.
 4. **Phase 4: Launch.** Set PINs, clear the date override, deploy before Dec 1, and share the

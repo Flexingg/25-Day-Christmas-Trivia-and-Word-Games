@@ -1,0 +1,26 @@
+{
+  "day": 2,
+  "title": "Emoji Ballpark",
+  "intro": "Read the emoji, name the thing. ⚾",
+  "puzzles": [
+    {
+      "id": "rafa-d02-01",
+      "section": "main",
+      "type": "rebus",
+      "points": 1,
+      "status": "ready",
+      "prompt": "What do these emoji spell out?",
+      "rebus": "🏠 + 🏃",
+      "answers": [
+        "home run",
+        "homerun",
+        "a home run",
+        "jonrón",
+        "jonron"
+      ],
+      "hint": "The best swing in béisbol.",
+      "explanation": "A house is \"home\" and a runner is \"run\", so: home run, or jonrón in Spanish!",
+      "attempts": 3
+    }
+  ]
+}
